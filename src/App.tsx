@@ -66,7 +66,9 @@ export default function App() {
     const [darkMode, setDarkMode] = useState<boolean>(() => {
         if (typeof window !== "undefined") {
             const saved = localStorage.getItem("theme");
-            if (saved) return saved === "dark";
+            if (saved === "dark" || saved === "light") {
+                return saved === "dark";
+            }
             return window.matchMedia("(prefers-color-scheme: dark)").matches;
         }
         return false;
@@ -76,18 +78,36 @@ export default function App() {
         const root = document.documentElement;
         if (darkMode) {
             root.classList.add("dark");
-            localStorage.setItem("theme", "dark");
         } else {
             root.classList.remove("dark");
-            localStorage.setItem("theme", "light");
         }
     }, [darkMode]);
+
+    // Listener for OS theme change
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+        const handleChange = (e: MediaQueryListEvent) => {
+            setDarkMode(e.matches);
+            localStorage.removeItem("theme");
+        };
+
+        mediaQuery.addEventListener("change", handleChange);
+        return () => mediaQuery.removeEventListener("change", handleChange);
+    }, []);
+
+    const toggleTheme = () => {
+        setDarkMode((prev) => {
+            const next = !prev;
+            localStorage.setItem("theme", next ? "dark" : "light");
+            return next;
+        });
+    };
 
     return (
         <div className="min-h-screen font-sans selection:bg-blue-500/20 selection:text-blue-600 dark:selection:text-blue-400">
             {/* Top Navbar */}
             <header className="sticky top-0 z-30 backdrop-blur-md bg-slate-50/80 dark:bg-zinc-950/80 border-b border-slate-200/80 dark:border-zinc-800/80">
-                <div className="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
+                <div className="max-w-3xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
                     <span className="font-mono font-medium text-sm tracking-tight text-slate-800 dark:text-zinc-200">
                         isaia.zollo
                         <span className="text-blue-600 dark:text-blue-400">
@@ -96,13 +116,13 @@ export default function App() {
                         $
                     </span>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2 sm:gap-3">
                         {/* GitHub SVG Icon */}
                         <a
                             href="https://github.com/bitsarebits"
                             target="_blank"
                             rel="noreferrer"
-                            className="text-slate-600 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
+                            className="p-1.5 rounded-lg text-slate-600 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
                             aria-label="GitHub"
                         >
                             <svg
@@ -118,7 +138,7 @@ export default function App() {
                             href="https://linkedin.com/in/isaia-zollo"
                             target="_blank"
                             rel="noreferrer"
-                            className="text-slate-600 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
+                            className="p-1.5 rounded-lg text-slate-600 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
                             aria-label="LinkedIn"
                         >
                             <svg
@@ -131,14 +151,14 @@ export default function App() {
 
                         <a
                             href="mailto:isaia.zollo@gmail.com"
-                            className="text-slate-600 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
+                            className="p-1.5 rounded-lg text-slate-600 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
                             aria-label="Email"
                         >
                             <Mail className="w-5 h-5" />
                         </a>
                         <div className="h-4 w-[1px] bg-slate-200 dark:bg-zinc-800 mx-1" />
                         <button
-                            onClick={() => setDarkMode(!darkMode)}
+                            onClick={toggleTheme}
                             className="p-2 rounded-lg bg-slate-200/60 dark:bg-zinc-800/60 hover:bg-slate-200 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-300 transition-colors"
                             aria-label="Toggle theme"
                         >
@@ -153,16 +173,16 @@ export default function App() {
             </header>
 
             {/* Main Content */}
-            <main className="max-w-3xl mx-auto px-6 py-12 md:py-16 space-y-16">
+            <main className="max-w-3xl mx-auto px-4 sm:px-6 py-10 md:py-16 space-y-12 sm:space-y-16">
                 {/* Hero / Bio Section */}
                 <section className="space-y-6">
                     <div className="flex flex-wrap items-center gap-2">
                         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border border-blue-200/60 dark:border-blue-800/60">
-                            <MapPin className="w-3.5 h-3.5" />
+                            <MapPin className="w-3.5 h-3.5 shrink-0" />
                             <span>Verona, Italy · Relocating to Munich</span>
                         </div>
                         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700 dark:bg-zinc-900 dark:text-zinc-300 border border-slate-200/80 dark:border-zinc-800">
-                            <GraduationCap className="w-3.5 h-3.5 text-slate-500 dark:text-zinc-400" />
+                            <GraduationCap className="w-3.5 h-3.5 shrink-0 text-slate-500 dark:text-zinc-400" />
                             <span>B.Sc. CS (109/110) · Future M.Sc. @ TUM</span>
                         </div>
                     </div>
@@ -311,7 +331,7 @@ export default function App() {
                                         href={project.link}
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="shrink-0 inline-flex items-center gap-1.5 text-xs font-medium text-slate-700 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400"
+                                        className="self-start sm:self-center pt-1 sm:pt-0 shrink-0 inline-flex items-center gap-1.5 text-xs font-medium text-slate-700 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400"
                                     >
                                         <span>
                                             {project.linkLabel || "Link"}

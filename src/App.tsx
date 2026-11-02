@@ -11,6 +11,16 @@ import {
     ArrowUpRight,
 } from "lucide-react";
 
+interface ExperienceItem {
+    title: string;
+    organization: string;
+    period: string;
+    tech: string;
+    description: string;
+    link?: string;
+    linkLabel?: string;
+}
+
 interface ProjectItem {
     title: string;
     tech: string;
@@ -19,47 +29,82 @@ interface ProjectItem {
     linkLabel?: string;
 }
 
-const PROJECTS: ProjectItem[] = [
+const EXPERIENCE: ExperienceItem[] = [
     {
-        title: "NonlinearROMs.jl",
-        tech: "Julia · Lux.jl · Reactant.jl",
+        title: "Google Summer of Code 2026 Contributor",
+        organization: "NumFOCUS / Gridap.jl",
+        period: "May 2026 – Aug 2026",
+        tech: "Julia · Lux.jl · Reactant.jl (XLA) · React · TypeScript",
         description:
-            "Core neural operator architectures (DeepONet, NOMAD) and XLA-compiled training loops adopted as the foundation for Gridap's deep learning ROM package.",
+            "Implemented neural operator architectures for reduced-order modelling of PDEs with XLA hardware acceleration, and built a full-stack web tool to configure runs and inspect metrics. This work started the open-source package NonlinearROMs.jl, which I continue to maintain with the research team.",
         link: "https://github.com/nichomueller/NonlinearROMs.jl",
-        linkLabel: "Repository",
+        linkLabel: "NonlinearROMs.jl",
     },
     {
-        title: "Sentinel-AI: Multithreaded Packet Analyzer",
-        tech: "C11 · libpcap · pthreads · ONNX",
+        title: "Undergraduate Research Intern (B.Sc. Thesis)",
+        organization: "UPC Barcelona · TU Delft · CNRS",
+        period: "Mar 2026 – Oct 2026",
+        tech: "Python · Julia · PINNs · Neural Operators · FEM",
         description:
-            "Producer-consumer packet capture engine in C11 using a POSIX ring buffer, manual L2–L4 header parsing, and native ONNX Runtime C inference.",
+            "Studied Physics-Informed Neural Networks and Neural Operators as surrogate models for Finite Element solvers applied to cell migration PDEs, writing training and benchmarking pipelines to evaluate runtime speed and numerical accuracy.",
+    },
+    {
+        title: "B.Sc. in Computer Science (109/110) & Curricular Internship",
+        organization: "University of Verona · EDALAB s.r.l.",
+        period: "Sep 2023 – Oct 2026",
+        tech: "Systems & Networks · Network Security · Software Engineering · AI",
+        description:
+            "Completed coursework in operating systems, computer architecture, network programming and security, software engineering, and Ethereum smart contracts, alongside an 80-hour on-site traineeship at EDALAB working on React and TypeScript web applications.",
+    },
+    {
+        title: "Logistics Coordinator & Operations",
+        organization: "Negrini Lda (Lisbon) · ITS Academy LAST (Verona)",
+        period: "2020 – Jul 2023",
+        tech: "B2B Operations · Route Planning · Supply Chain",
+        description:
+            "Earned a two-year technical diploma in Logistics and Supply Chain Management (EQF Level 5) and worked full-time in Lisbon after an Erasmus+ traineeship, coordinating daily B2B deliveries, truck routes, and warehouse operations.",
+    },
+];
+
+const PROJECTS: ProjectItem[] = [
+    {
+        title: "Sentinel-AI: Multithreaded Packet Analyzer",
+        tech: "C11 · Linux · libpcap · pthreads",
+        description:
+            "Linux network packet capture and parsing tool built to explore low-level networking and concurrency. Uses a multithreaded producer-consumer pipeline with a bounded ring buffer and POSIX mutex/condition variables to parse Ethernet, IPv4/IPv6, TCP, and UDP headers.",
         link: "https://github.com/bitsarebits/sentinel-ai",
         linkLabel: "GitHub",
     },
     {
-        title: "Rust Simulation & Native RL Inference",
+        title: "Native Simulation & Inference Pipeline",
         tech: "Rust · Python · Gymnasium",
         description:
-            "Headless 2D simulation in Rust connected to Python Gymnasium via binary protocol, featuring zero-dependency native CNN+MLP policy inference.",
+            "Headless 2D simulation worker in Rust connected to a Python Gymnasium environment via a binary pipe protocol for reinforcement learning experiments, featuring standalone forward-pass policy inference in Rust without runtime C++ or Python dependencies.",
     },
     {
-        title: "Undergraduate Research Intern (B.Sc. Thesis)",
-        tech: "UPC Barcelona · TU Delft · CNRS",
+        title: "Ethereum ERC-721 Marketplace",
+        tech: "Solidity · Foundry · Hardhat · TypeScript · Viem",
         description:
-            "Benchmarked Physics-Informed Neural Networks (PINNs) and Neural Operators against classical Finite Element solvers for cell migration PDEs.",
+            "Smart contract project implementing an ERC-721 collection and permissionless marketplace (minting, listings, purchases, fee management), paired with Foundry unit tests, Hardhat integration tests, and a TypeScript CLI.",
+        link: "https://github.com/bitsarebits/MarketplaceNFT",
+        linkLabel: "GitHub",
     },
 ];
 
 const SKILLS: string[] = [
-    "C11",
+    "C",
     "Rust",
+    "Python",
     "Julia",
     "TypeScript",
-    "Python",
+    "Solidity",
     "Linux / POSIX",
-    "TCP/IP & L2–L4",
+    "TCP/IP & Networking",
     "React",
-    "Lux.jl / PyTorch",
+    "Lux.jl / Reactant.jl (XLA)",
+    "PyTorch",
+    "SQL",
+    "Git & CI/CD",
 ];
 
 export default function App() {
@@ -179,11 +224,11 @@ export default function App() {
                     <div className="flex flex-wrap items-center gap-2">
                         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border border-blue-200/60 dark:border-blue-800/60">
                             <MapPin className="w-3.5 h-3.5 shrink-0" />
-                            <span>Verona, Italy · Relocating to Munich</span>
+                            <span>Verona, Italy</span>
                         </div>
                         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700 dark:bg-zinc-900 dark:text-zinc-300 border border-slate-200/80 dark:border-zinc-800">
                             <GraduationCap className="w-3.5 h-3.5 shrink-0 text-slate-500 dark:text-zinc-400" />
-                            <span>B.Sc. CS (109/110) · Future M.Sc. @ TUM</span>
+                            <span>B.Sc. Computer Science · 109/110</span>
                         </div>
                     </div>
 
@@ -192,33 +237,37 @@ export default function App() {
                             Hi, I'm Isaia Zollo.
                         </h1>
                         <p className="text-lg text-slate-600 dark:text-zinc-400 leading-relaxed">
-                            Computer Science graduate (
-                            <span className="text-slate-900 dark:text-zinc-200 font-medium">
-                                109/110
-                            </span>
-                            ) at the University of Verona and{" "}
+                            Computer Science graduate at the University of
+                            Verona and{" "}
                             <span className="text-slate-900 dark:text-zinc-200 font-medium">
                                 Google Summer of Code 2026
                             </span>{" "}
                             contributor under NumFOCUS.
                         </p>
                         <p className="text-base text-slate-600 dark:text-zinc-400 leading-relaxed">
-                            My work sits at the intersection of{" "}
+                            Through my thesis and open-source work, I focused on{" "}
                             <span className="text-slate-800 dark:text-zinc-200 font-medium">
-                                systems programming
+                                scientific computing
                             </span>
                             ,{" "}
                             <span className="text-slate-800 dark:text-zinc-200 font-medium">
-                                software infrastructure
+                                machine learning for physical systems
                             </span>
                             , and{" "}
                             <span className="text-slate-800 dark:text-zinc-200 font-medium">
-                                scientific machine learning (SciML)
+                                full-stack web tooling
                             </span>
-                            . Whether it's parsing raw network packets in C11,
-                            running native neural policies in Rust, or compiling
-                            neural operators with XLA in Julia, I enjoy building
-                            fast, reliable software from the ground up.
+                            . Alongside this, I have a strong interest in{" "}
+                            <span className="text-slate-800 dark:text-zinc-200 font-medium">
+                                systems programming
+                            </span>{" "}
+                            (C, Rust, Linux),{" "}
+                            <span className="text-slate-800 dark:text-zinc-200 font-medium">
+                                networking and security
+                            </span>
+                            , and blockchain protocols. Before university, I
+                            worked full-time in Lisbon coordinating B2B
+                            logistics operations.
                         </p>
                     </div>
 
@@ -239,8 +288,7 @@ export default function App() {
                 <section className="space-y-4">
                     <div className="flex items-center justify-between">
                         <h2 className="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-zinc-400">
-                            Featured Open Source Work — GSoC 2026 @ NumFOCUS /
-                            Gridap.jl
+                            Open Source Work — GSoC 2026 @ NumFOCUS / Gridap.jl
                         </h2>
                     </div>
 
@@ -258,16 +306,16 @@ export default function App() {
                                     <ArrowUpRight className="w-5 h-5 text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                                 </div>
                                 <h3 className="font-semibold text-lg text-slate-900 dark:text-zinc-100">
-                                    GSoC 2026 Technical Blog
+                                    GSoC 2026 Technical Notes
                                 </h3>
                                 <p className="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
-                                    Complete engineering devlog covering the
-                                    design of DeepONet, NOMAD, and Graph Neural
-                                    Operators for nonlinear PDEs in Julia.
+                                    9-part development log covering the
+                                    implementation of DeepONet, NOMAD, FNO, GNO,
+                                    and HAMLET architectures for PDEs in Julia.
                                 </p>
                             </div>
                             <div className="pt-4 mt-4 border-t border-slate-100 dark:border-zinc-800/80 flex items-center text-xs font-medium text-blue-600 dark:text-blue-400">
-                                Read the 9-part series →
+                                Read the development series →
                             </div>
                         </a>
 
@@ -286,25 +334,72 @@ export default function App() {
                                     <ArrowUpRight className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                                 </div>
                                 <h3 className="font-semibold text-lg text-slate-900 dark:text-zinc-100">
-                                    Interactive Experiment Gallery
+                                    Experiment Dashboard
                                 </h3>
                                 <p className="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
-                                    Live web orchestrator & telemetry dashboard
-                                    built with React and Oxygen.jl to inspect
-                                    PDE simulations and neural operator metrics.
+                                    Web interface built with React, TypeScript,
+                                    and Oxygen.jl to configure training runs and
+                                    inspect simulation metrics.
                                 </p>
                             </div>
                             <div className="pt-4 mt-4 border-t border-slate-100 dark:border-zinc-800/80 flex items-center text-xs font-medium text-emerald-600 dark:text-emerald-400">
-                                Launch online dashboard →
+                                Open web dashboard →
                             </div>
                         </a>
                     </div>
                 </section>
 
-                {/* Selected Engineering & Research */}
+                {/* Experience & Education */}
                 <section className="space-y-4">
                     <h2 className="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-zinc-400">
-                        Selected Projects & Research
+                        Experience & Education
+                    </h2>
+
+                    <div className="space-y-3">
+                        {EXPERIENCE.map((item) => (
+                            <div
+                                key={item.title}
+                                className="p-5 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 flex flex-col sm:flex-row sm:items-start justify-between gap-4"
+                            >
+                                <div className="space-y-1.5">
+                                    <div className="flex flex-wrap items-center gap-2">
+                                        <span className="font-semibold text-slate-900 dark:text-zinc-100">
+                                            {item.title}
+                                        </span>
+                                        <span className="text-xs text-slate-500 dark:text-zinc-400">
+                                            · {item.organization} ({item.period}
+                                            )
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span className="inline-block text-xs font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400">
+                                            {item.tech}
+                                        </span>
+                                    </div>
+                                    <p className="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed pt-0.5">
+                                        {item.description}
+                                    </p>
+                                </div>
+                                {item.link && (
+                                    <a
+                                        href={item.link}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="self-start shrink-0 inline-flex items-center gap-1.5 text-xs font-medium text-slate-700 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 pt-1"
+                                    >
+                                        <span>{item.linkLabel || "Link"}</span>
+                                        <ExternalLink className="w-3.5 h-3.5" />
+                                    </a>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* Selected Technical Explorations */}
+                <section className="space-y-4">
+                    <h2 className="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-zinc-400">
+                        Selected Technical Explorations
                     </h2>
 
                     <div className="space-y-3">
@@ -313,7 +408,7 @@ export default function App() {
                                 key={project.title}
                                 className="p-5 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                             >
-                                <div className="space-y-1">
+                                <div className="space-y-1.5">
                                     <div className="flex flex-wrap items-center gap-2">
                                         <span className="font-semibold text-slate-900 dark:text-zinc-100">
                                             {project.title}
@@ -322,7 +417,7 @@ export default function App() {
                                             {project.tech}
                                         </span>
                                     </div>
-                                    <p className="text-sm text-slate-600 dark:text-zinc-400">
+                                    <p className="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
                                         {project.description}
                                     </p>
                                 </div>
@@ -346,10 +441,7 @@ export default function App() {
 
                 {/* Footer */}
                 <footer className="pt-8 border-t border-slate-200 dark:border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-zinc-500">
-                    <span>
-                        © {new Date().getFullYear()} Isaia Zollo. Built with
-                        React, TypeScript & Tailwind CSS.
-                    </span>
+                    <span>© {new Date().getFullYear()} Isaia Zollo</span>
                     <div className="flex items-center gap-4">
                         <a
                             href="mailto:isaia.zollo@gmail.com"
